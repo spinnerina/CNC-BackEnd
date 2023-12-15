@@ -28,6 +28,7 @@ const apiController = require('../controllers/apiController');
 
 app.get('/saludo', authJWT, apiController.saludo);
 app.post('/login', apiController.login);
+app.post('/register', apiController.register);
 
 
 
