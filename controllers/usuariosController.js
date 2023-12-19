@@ -4,9 +4,6 @@ const functiones = require('../config/function');
 const secret = process.env.SECRET_KEY;
 const bcrypt = require('bcrypt');
 
-function saludo(req, res){
-    res.json({ message: 'Hola! Bienvenido a mi api de express y WebSocket'});
-}
 
 async function login(req, res) {
     try {
@@ -33,10 +30,10 @@ async function login(req, res) {
 }
 
 async function register(req, res){
-    const { username, password, email } = req.body; 
+    const { username, password, email, habilitado, rule_id } = req.body; 
 
     try{
-    if (username !== undefined && password !== undefined && username !== "" && password !== "") {
+    if (username !== undefined && password !== undefined && username !== "" && password !== "" && habilitado !== undefined && habilitado !== "") {
         //Encrypto la contraseña
         const passwordEncrypt = await functiones.encrypt(password);
 
@@ -44,7 +41,9 @@ async function register(req, res){
             const nuevoUsuario = await sequelize.Usuario.create({
                 username: username,
                 password: passwordEncrypt,
-                email: email
+                email: email,
+                habilitado: habilitado,
+                rule_id: rule_id
             });
         
             res.json({ message: "Registrado correctamente", result: nuevoUsuario });
@@ -61,7 +60,6 @@ async function register(req, res){
 }
 
 module.exports = {
-    saludo,
     login,
     register
 };

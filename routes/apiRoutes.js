@@ -24,11 +24,12 @@ const authJWT = (req, res, next) =>{
     }
 }
 
-const apiController = require('../controllers/apiController');
+const usuarioController = require('../controllers/usuariosController');
+const ruleController = require('../controllers/ruleController');
 
-app.get('/saludo', authJWT, apiController.saludo);
-app.post('/login', apiController.login);
-app.post('/register', apiController.register);
+app.post('/login', usuarioController.login);
+app.post('/register', usuarioController.register);
+app.post('/rule/nueva', ruleController.createRule);
 
 
 

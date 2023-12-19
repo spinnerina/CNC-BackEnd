@@ -16,6 +16,15 @@ module.exports = (sequelize) => {
       allowNull: false,
       unique: true,
     },
+    habilitado: {
+      type: Sequelize.BOOLEAN,
+      default: false,
+      allowNull: false
+    },
+    rule_id: {
+      type: Sequelize.INTEGER,
+      allowNull: false,
+    },
   });
 
   return Usuario;
