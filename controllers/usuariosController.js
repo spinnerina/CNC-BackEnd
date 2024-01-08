@@ -46,7 +46,7 @@ async function register(req, res){
                 rule_id: rule_id
             });
         
-            res.json({ message: "Registrado correctamente", result: nuevoUsuario });
+            res.status(201).json({ message: "Registrado correctamente", result: nuevoUsuario });
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: "Error al registrar el nuevo usuario", error: error.message });
@@ -59,7 +59,47 @@ async function register(req, res){
     }
 }
 
+async function updateUsuario(req, res){
+    const { username, email, habilitado, rule_id} = req.body;
+    const id = req.params.id;
+
+    try{
+        const usuarioActualizado = await sequelize.Usuario.update({
+            username: username,
+            email: email,
+            habilitado: habilitado,
+            rule_id: rule_id
+        }, {
+            where: {
+                id: id
+            },
+        });
+
+        res.status(201).json({ message: "Usuario actualizado corectamente", usuario: usuarioActualizado });
+    }catch(error){
+        res.status(500).json({ message: "Error al actualizar el usuario", error: error})
+    }
+}
+
+async function deleteUsuario(req, res){
+    const id = req.params.id;
+
+    try{
+        const usuarioEliminado = await sequelize.Usuario.destroy({
+            where:{
+                id: id
+            },
+        });
+        
+        res.status(200).json({ message: "Usuario eliminado correctamente", usuario: usuarioEliminado});
+    }catch(error){
+        res.status(500).json({ message: "Error al eliminar el usuario", error: error});
+    }
+}
+
 module.exports = {
     login,
-    register
+    register,
+    updateUsuario,
+    deleteUsuario
 };

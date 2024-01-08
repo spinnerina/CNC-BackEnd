@@ -26,10 +26,21 @@ const authJWT = (req, res, next) =>{
 
 const usuarioController = require('../controllers/usuariosController');
 const ruleController = require('../controllers/ruleController');
+const contactoController = require('../controllers/contactoController');
 
+//Usuario
 app.post('/login', usuarioController.login);
 app.post('/register', usuarioController.register);
-app.post('/rule/nueva', ruleController.createRule);
+app.put('/usuario/update/:id', authJWT, usuarioController.updateUsuario);
+app.delete('/usuario/delete/:id', authJWT, usuarioController.deleteUsuario);
+
+//Rule
+app.post('/rule/nueva', authJWT, ruleController.createRule);
+app.put('/rule/update/:id', authJWT, ruleController.updateRule);
+app.delete('/rule/delete/:id', authJWT, ruleController.deleteRule);
+
+//Contacto
+app.post('/contacto/nuevo', authJWT, contactoController.createContacto);
 
 
 
